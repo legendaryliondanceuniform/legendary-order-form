@@ -15,11 +15,19 @@
         label { display: block; margin-bottom: 8px; font-size: 12px; font-weight: bold; letter-spacing: 1px; color: #ccc; }
         input, select { width: 100%; padding: 12px; background-color: #111; border: 1px solid #333; color: #fff; border-radius: 4px; box-sizing: border-box; font-size: 16px; }
         input:focus, select:focus { outline: none; border-color: #d4af37; }
-        .btn { width: 100%; padding: 15px; background-color: #d4af37; color: #000; border: none; border-radius: 4px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 20px; transition: background-color 0.3s; }
+        .btn { width: 100%; padding: 15px; background-color: #d4af37; color: #000; border: none; border-radius: 4px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 10px; transition: background-color 0.3s; }
         .btn:hover { background-color: #b89600; }
         .btn:disabled { background-color: #555; cursor: not-allowed; }
+
+        .btn-secondary { width: 100%; padding: 12px; background-color: #222; color: #fff; border: 1px dashed #d4af37; border-radius: 4px; font-size: 14px; font-weight: bold; cursor: pointer; margin-top: 10px; margin-bottom: 20px; transition: background-color 0.3s; }
+        .btn-secondary:hover { background-color: #333; }
+
         .row { display: flex; gap: 15px; }
         .col { flex: 1; }
+
+        .item-row { border: 1px solid #444; padding: 15px; margin-bottom: 15px; border-radius: 6px; background-color: #0a0a0a; position: relative; }
+        .remove-btn { position: absolute; top: 10px; right: 10px; background: transparent; color: #ff4444; border: none; font-size: 12px; cursor: pointer; font-weight: bold; }
+        .remove-btn:hover { text-decoration: underline; }
     </style>
 </head>
 <body>
@@ -47,10 +55,10 @@
                 <input type="text" id="igHandle" placeholder="@your_ig">
             </div>
 
-                                    <div class="form-group">
+            <div class="form-group">
                 <label>PHONE NUMBER / 聯絡電話</label>
                 <div style="display: flex; gap: 10px;">
-                                        <select id="countryCode" style="width: 180px;" required>
+                    <select id="countryCode" style="width: 180px;" required>
                         <option value="+852">+852 香港 Hong Kong</option>
                         <option value="+853">+853 澳門 Macau</option>
                         <option value="+886">+886 台灣 Taiwan</option>
@@ -63,19 +71,16 @@
                         <option value="+61">+61 澳洲 Australia</option>
                         <option value="+">+ 其他 Other</option>
                     </select>
-                    <input type="tel" id="phone" style="flex: 1;" required placeholder="如選其他請填區號 / Include code if Other">
-
+                    <input type="tel" id="phone" style="flex: 1;" required placeholder="12345678">
                 </div>
             </div>
-
-
 
             <div style="border-top: 1px solid #333; margin: 30px 0;"></div>
 
             <!-- 收件地址 -->
             <div class="form-group">
                 <label>SHIPPING ADDRESS / 收件地址</label>
-                <input type="text" id="address1" required placeholder="Street address, P.O. box, company name, c/o" style="margin-bottom: 10px;">
+                <input type="text" id="address1" required placeholder="Street address, P.O. box, company name" style="margin-bottom: 10px;">
                 <input type="text" id="address2" placeholder="Apartment, suite, unit, building, floor, etc.">
             </div>
 
@@ -115,39 +120,72 @@
                 </select>
             </div>
 
-            <div class="form-group">
-                <label>PRODUCT / 款式</label>
-                <select id="product" required>
-    <option value="">Select Style / 選擇款式</option>
-    <option value="Style A - W(R)E-Start Graphic Tee">Style A / 款式A</option>
-    <option value="Style B - W(R)E-Start Graphic Tee">Style B / 款式B</option>
-</select>
-
+            <!-- 購物車清單區 -->
+            <div id="itemsContainer">
+                <!-- JavaScript 會自動加第一件衫入嚟 -->
             </div>
 
-            <div class="row">
-                <div class="col form-group">
-                    <label>SIZE / 尺寸</label>
-                    <select id="size" required>
-                        <option value="">Select Size</option>
-                        <option value="S">S</option>
-                        <option value="M">M</option>
-                        <option value="L">L</option>
-                        <option value="XL">XL</option>
-                        <option value="XXL">XXL</option>
-                    </select>
-                </div>
-                <div class="col form-group">
-                    <label>QTY / 數量</label>
-                    <input type="number" id="quantity" value="1" min="1" required>
-                </div>
-            </div>
+            <!-- 加入其他款式按鈕 -->
+            <button type="button" id="addItemBtn" class="btn-secondary">+ ADD ANOTHER ITEM / 加入其他款式</button>
 
             <button type="submit" class="btn" id="submitBtn">PROCEED TO CHECKOUT</button>
         </form>
     </div>
 
     <script>
+        const itemsContainer = document.getElementById('itemsContainer');
+        const addItemBtn = document.getElementById('addItemBtn');
+
+        function createItemRow() {
+            const div = document.createElement('div');
+            div.className = 'item-row';
+
+            div.innerHTML = `
+                <button type="button" class="remove-btn">✕ REMOVE</button>
+                <div class="form-group" style="margin-top: 10px;">
+                    <label>PRODUCT / 款式</label>
+                    <select class="item-product" required>
+                        <option value="">Select Style / 選擇款式</option>
+                        <option value="Style A - W(R)E-Start Graphic Tee">Style A / 款式A (前印)</option>
+                        <option value="Style B - W(R)E-Start Graphic Tee">Style B / 款式B (後印)</option>
+                    </select>
+                </div>
+                <div class="row">
+                    <div class="col form-group">
+                        <label>SIZE / 尺寸</label>
+                        <select class="item-size" required>
+                            <option value="">Select Size</option>
+                            <option value="S">S</option>
+                            <option value="M">M</option>
+                            <option value="L">L</option>
+                            <option value="XL">XL</option>
+                            <option value="XXL">XXL</option>
+                        </select>
+                    </div>
+                    <div class="col form-group">
+                        <label>QTY / 數量</label>
+                        <input type="number" class="item-qty" value="1" min="1" required>
+                    </div>
+                </div>
+            `;
+
+            div.querySelector('.remove-btn').addEventListener('click', () => {
+                if (itemsContainer.children.length > 1) {
+                    div.remove();
+                } else {
+                    alert('最少需要購買一件商品 / At least one item is required.');
+                }
+            });
+
+            itemsContainer.appendChild(div);
+        }
+
+        createItemRow();
+
+        addItemBtn.addEventListener('click', () => {
+            createItemRow();
+        });
+
         document.getElementById('orderForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const btn = document.getElementById('submitBtn');
@@ -155,12 +193,19 @@
             btn.textContent = 'PROCESSING...';
 
             try {
-                // 收集所有資料
+                const items = [];
+                document.querySelectorAll('.item-row').forEach(row => {
+                    items.push({
+                        product: row.querySelector('.item-product').value,
+                        size: row.querySelector('.item-size').value,
+                        quantity: row.querySelector('.item-qty').value
+                    });
+                });
+
                 const data = {
                     customerName: document.getElementById('customerName').value,
                     igHandle: document.getElementById('igHandle').value,
                     phone: document.getElementById('countryCode').value + ' ' + document.getElementById('phone').value,
-
                     address: {
                         line1: document.getElementById('address1').value,
                         line2: document.getElementById('address2').value,
@@ -168,12 +213,9 @@
                         country: document.getElementById('country').value
                     },
                     currency: document.getElementById('currency').value,
-                    product: document.getElementById('product').value,
-                    size: document.getElementById('size').value,
-                    quantity: document.getElementById('quantity').value
+                    items: items
                 };
 
-                // 呼叫後端 API
                 const response = await fetch('/api/checkout', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -183,7 +225,7 @@
                 const result = await response.json();
 
                 if (result.url) {
-                    window.location.href = result.url; // 跳轉去 Stripe
+                    window.location.href = result.url;
                 } else {
                     throw new Error(result.error || 'Something went wrong');
                 }
