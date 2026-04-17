@@ -15,7 +15,23 @@ export default async function handler(req, res) {
       items
     } = req.body;
 
-    const prices = {
+    // 設定截止日期 (2026年5月5日 23:59:59 HKT)
+    const deadline = new Date('2026-05-05T23:59:59+08:00');
+    const now = new Date();
+    const isPreorder = now <= deadline;
+
+    // 正價
+    const regularPrices = {
+      HKD: 27000,
+      MYR: 15000,
+      SGD: 4400,
+      CNY: 24800,
+      TWD: 1100,
+      USD: 3500
+    };
+
+    // 預購價 (20% OFF)
+    const preorderPrices = {
       HKD: 21600,
       MYR: 12000,
       SGD: 3500,
@@ -24,6 +40,8 @@ export default async function handler(req, res) {
       USD: 2800
     };
 
+    // 系統自動判斷用邊個價錢表
+    const prices = isPreorder ? preorderPrices : regularPrices;
     const unitAmount = prices[currency];
 
     const line_items = items.map(item => ({
