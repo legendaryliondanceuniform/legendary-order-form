@@ -47,10 +47,23 @@
                 <input type="text" id="igHandle" placeholder="@your_ig">
             </div>
 
-            <div class="form-group">
+                        <div class="form-group">
                 <label>PHONE NUMBER / 聯絡電話</label>
-                <input type="tel" id="phone" required placeholder="+852 1234 5678">
+                <div style="display: flex; gap: 10px;">
+                    <select id="countryCode" style="width: 140px;" required>
+                        <option value="+852">+852 (香港)</option>
+                        <option value="+853">+853 (澳門)</option>
+                        <option value="+886">+886 (台灣)</option>
+                        <option value="+60">+60 (馬來西亞)</option>
+                        <option value="+65">+65 (新加坡)</option>
+                        <option value="+86">+86 (中國內地)</option>
+                        <option value="+1">+1 (美國/加拿大)</option>
+                        <option value="+44">+44 (英國)</option>
+                    </select>
+                    <input type="tel" id="phone" style="flex: 1;" required placeholder="1234 5678">
+                </div>
             </div>
+
 
             <div style="border-top: 1px solid #333; margin: 30px 0;"></div>
 
