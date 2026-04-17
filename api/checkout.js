@@ -34,12 +34,12 @@ export default async function handler(req, res) {
             currency: currency.toLowerCase(),
             product_ {
               name: `${product} (Size: ${size})`,
-              description: `IG: ${igHandle || 'N/A'} | Phone: ${phone}`,
+              description: `IG: ${igHandle || 'N/A'} | Phone: ${phone}`
             },
-            unit_amount: prices[currency],
+            unit_amount: prices[currency]
           },
-          quantity: parseInt(quantity),
-        },
+          quantity: parseInt(quantity, 10)
+        }
       ],
       mode: 'payment',
       success_url: `${req.headers.origin}/success.html`,
@@ -60,7 +60,9 @@ export default async function handler(req, res) {
         customerName: customerName,
         igHandle: igHandle || 'N/A',
         size: size,
-        phone: phone
+        phone: phone,
+        product: product,
+        currency: currency
       }
     });
 
