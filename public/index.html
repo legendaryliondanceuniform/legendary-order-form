@@ -3,144 +3,174 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LEGENDARY | Order Form</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>LEGENDARY Order Form</title>
     <style>
-        body { background-color: #000000; color: #ffffff; font-family: 'Helvetica Neue', sans-serif; }
-        .white-btn { background-color: #ffffff; color: #000000; border: 1px solid #ffffff; }
-        .white-btn:hover { background-color: #e5e5e5; }
-        .white-btn:disabled { background-color: #666666; cursor: not-allowed; }
-        .outline-btn { background-color: transparent; color: #d4af37; border: 1px solid #d4af37; }
-        .outline-btn:hover { background-color: #d4af37; color: #000000; }
-        .input-field { width: 100%; background-color: #000000; border: 1px solid #333333; border-radius: 0; padding: 0.75rem; color: #ffffff; appearance: none; }
-        select.input-field { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='white'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 1rem center; background-size: 1.2em; padding-right: 2.5rem; }
-        .input-field:focus { outline: none; border-color: #ffffff; box-shadow: none; }
-        .label-text { display: block; font-size: 0.875rem; font-weight: 500; margin-bottom: 0.35rem; color: #a3a3a3; text-transform: uppercase; letter-spacing: 0.05em; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #1a1a1a; color: #fff; line-height: 1.6; padding: 20px; max-width: 600px; margin: 0 auto; }
+        .container { background-color: #000; border: 1px solid #333; padding: 30px; border-radius: 8px; }
+        h1 { text-align: center; letter-spacing: 2px; font-size: 24px; margin-bottom: 5px; }
+        .subtitle { text-align: center; color: #888; font-size: 14px; margin-bottom: 30px; }
+        .price-box { border: 1px solid #d4af37; padding: 15px; margin-bottom: 30px; text-align: center; color: #d4af37; font-size: 14px; }
+        .price-box p { margin: 5px 0; }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-size: 12px; font-weight: bold; letter-spacing: 1px; color: #ccc; }
+        input, select { width: 100%; padding: 12px; background-color: #111; border: 1px solid #333; color: #fff; border-radius: 4px; box-sizing: border-box; font-size: 16px; }
+        input:focus, select:focus { outline: none; border-color: #d4af37; }
+        .btn { width: 100%; padding: 15px; background-color: #d4af37; color: #000; border: none; border-radius: 4px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 20px; transition: background-color 0.3s; }
+        .btn:hover { background-color: #b89600; }
+        .btn:disabled { background-color: #555; cursor: not-allowed; }
+        .row { display: flex; gap: 15px; }
+        .col { flex: 1; }
     </style>
 </head>
-<body class="min-h-screen flex items-center justify-center p-4 py-10">
-    <div class="max-w-md w-full bg-black rounded-none p-8 border border-[#333333]">
-        <div class="text-center mb-8 flex flex-col items-center justify-center">
-            <h1 class="text-3xl font-bold tracking-widest mb-2">LEGENDARY</h1>
-            <p class="text-[#a3a3a3] mt-2 text-sm uppercase tracking-[0.2em] border-t border-[#333333] pt-4 w-full">LEGENDARY X 黃奕铭</p>
-            <p class="text-white text-lg font-bold mt-1 tracking-wider text-[#d4af37]">W(R)E-Start Graphic Tee</p>
-            <div class="mt-4 p-3 border border-[#d4af37] bg-[#1a1500] w-full text-center">
-                <p class="text-[#d4af37] text-xs font-bold uppercase tracking-widest mb-1">Pre-order before 5 May — 20% OFF</p>
-                <div class="grid grid-cols-2 gap-2 text-sm mt-2">
-                    <div class="text-[#a3a3a3]">HKD 216</div><div class="text-[#a3a3a3]">MYR 120</div>
-                    <div class="text-[#a3a3a3]">SGD 35</div><div class="text-[#a3a3a3]">CNY 198</div>
-                </div>
+<body>
+    <div class="container">
+        <h1>LEGENDARY</h1>
+        <div class="subtitle">LEGENDARY X 黃奕銘<br>W(R)E-Start Graphic Tee</div>
+
+        <div class="price-box">
+            <p style="font-weight: bold; margin-bottom: 10px;">PRE-ORDER BEFORE 5 MAY — 20% OFF</p>
+            <div style="display: flex; justify-content: space-around;">
+                <div>HKD 216<br>SGD 35</div>
+                <div>MYR 120<br>CNY 198</div>
             </div>
         </div>
-        <form id="orderForm" class="space-y-6">
-            <div>
-                <label class="label-text">IG Handle / IG 帳號</label>
-                <input type="text" name="ig_handle" placeholder="@your_ig" required class="input-field">
+
+        <form id="orderForm">
+            <!-- 聯絡資料 -->
+            <div class="form-group">
+                <label>CUSTOMER NAME / 顧客名稱</label>
+                <input type="text" id="customerName" required placeholder="Your full name">
             </div>
-            <div class="border border-[#333333] p-5 space-y-5 bg-[#050505]">
-                <h3 class="text-sm font-bold text-white mb-2 uppercase tracking-widest border-b border-[#333333] pb-3">Your Order</h3>
-                <div class="mb-4 pb-4 border-b border-[#333333]">
-                    <label class="label-text text-[#d4af37]">Payment Currency</label>
-                    <select name="payment_currency" id="currency_select" required class="input-field" onchange="calculateTotal()">
-                        <option value="HKD" data-price="216">HKD - $216/件</option>
-                        <option value="MYR" data-price="120">MYR - RM120/件</option>
-                        <option value="SGD" data-price="35">SGD - $35/件</option>
-                        <option value="CNY" data-price="198">CNY - ¥198/件</option>
+
+            <div class="form-group">
+                <label>IG HANDLE / IG 帳號 (Optional)</label>
+                <input type="text" id="igHandle" placeholder="@your_ig">
+            </div>
+
+            <div class="form-group">
+                <label>PHONE NUMBER / 聯絡電話</label>
+                <input type="tel" id="phone" required placeholder="+852 1234 5678">
+            </div>
+
+            <div style="border-top: 1px solid #333; margin: 30px 0;"></div>
+
+            <!-- 收件地址 -->
+            <div class="form-group">
+                <label>SHIPPING ADDRESS / 收件地址</label>
+                <input type="text" id="address1" required placeholder="Street address, P.O. box, company name, c/o" style="margin-bottom: 10px;">
+                <input type="text" id="address2" placeholder="Apartment, suite, unit, building, floor, etc.">
+            </div>
+
+            <div class="row">
+                <div class="col form-group">
+                    <label>CITY / 城市</label>
+                    <input type="text" id="city" required>
+                </div>
+                <div class="col form-group">
+                    <label>COUNTRY / 國家或地區</label>
+                    <select id="country" required>
+                        <option value="HK">Hong Kong (香港)</option>
+                        <option value="MO">Macau (澳門)</option>
+                        <option value="TW">Taiwan (台灣)</option>
+                        <option value="MY">Malaysia (馬來西亞)</option>
+                        <option value="SG">Singapore (新加坡)</option>
+                        <option value="CN">China (中國內地)</option>
+                        <option value="US">United States</option>
+                        <option value="UK">United Kingdom</option>
+                        <option value="OTHER">Other</option>
                     </select>
                 </div>
-                <div id="order_items_container" class="space-y-4">
-                    <div class="order-item bg-[#0a0a0a] p-4 border border-[#222222] relative">
-                        <div class="space-y-4">
-                            <div>
-                                <label class="label-text">Product / 款式</label>
-                                <select class="input-field item-style" required>
-                                    <option value="" disabled selected>Select</option>
-                                    <option value="W(R)E-Start Graphic Tee (款式 A)">款式 A</option>
-                                    <option value="W(R)E-Start Graphic Tee (款式 B)">款式 B</option>
-                                </select>
-                            </div>
-                            <div class="grid grid-cols-2 gap-3">
-                                <div>
-                                    <label class="label-text">Size</label>
-                                    <select class="input-field item-size" required>
-                                        <option value="" disabled selected>Select</option>
-                                        <option value="S">S</option><option value="M">M</option>
-                                        <option value="L">L</option><option value="XL">XL</option><option value="XXL">XXL</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label class="label-text">Qty</label>
-                                    <input type="number" min="1" value="1" class="input-field item-qty text-center" onchange="calculateTotal()" required>
-                                </div>
-                            </div>
-                        </div>
-                        <button type="button" class="remove-btn hidden absolute top-3 right-3 text-red-500 text-xs">✕</button>
-                    </div>
+            </div>
+
+            <div style="border-top: 1px solid #333; margin: 30px 0;"></div>
+
+            <!-- 訂單內容 -->
+            <div class="form-group">
+                <label>PAYMENT CURRENCY / 付款貨幣</label>
+                <select id="currency" required>
+                    <option value="HKD">HKD - 港幣 ($216)</option>
+                    <option value="MYR">MYR - 馬幣 (RM120)</option>
+                    <option value="SGD">SGD - 新加坡幣 ($35)</option>
+                    <option value="CNY">CNY - 人民幣 (¥198)</option>
+                    <option value="TWD">TWD - 台幣 (NT$880)</option>
+                    <option value="USD">USD - 美元 ($28)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>PRODUCT / 款式</label>
+                <select id="product" required>
+                    <option value="W(R)E-Start Graphic Tee">W(R)E-Start Graphic Tee</option>
+                </select>
+            </div>
+
+            <div class="row">
+                <div class="col form-group">
+                    <label>SIZE / 尺寸</label>
+                    <select id="size" required>
+                        <option value="">Select Size</option>
+                        <option value="S">S</option>
+                        <option value="M">M</option>
+                        <option value="L">L</option>
+                        <option value="XL">XL</option>
+                        <option value="XXL">XXL</option>
+                    </select>
                 </div>
-                <button type="button" id="add_item_btn" class="w-full outline-btn text-xs uppercase tracking-widest font-bold p-3">+ Add Another Item</button>
-                <div class="mt-4 pt-4 border-t border-[#333333] flex justify-between items-center">
-                    <span class="text-sm font-bold text-[#a3a3a3]">TOTAL:</span>
-                    <span id="total_display" class="text-xl font-bold text-[#d4af37]">HKD 216</span>
+                <div class="col form-group">
+                    <label>QTY / 數量</label>
+                    <input type="number" id="quantity" value="1" min="1" required>
                 </div>
             </div>
-            <button type="submit" id="submitBtn" class="w-full white-btn text-sm uppercase tracking-widest font-bold p-4 mt-8">Checkout / 結帳</button>
+
+            <button type="submit" class="btn" id="submitBtn">PROCEED TO CHECKOUT</button>
         </form>
     </div>
 
     <script>
-        function calculateTotal() {
-            const curr = document.getElementById('currency_select');
-            const unitPrice = parseFloat(curr.options[curr.selectedIndex].getAttribute('data-price'));
-            let totalQty = 0;
-            document.querySelectorAll('.item-qty').forEach(input => totalQty += parseInt(input.value) || 0);
-            document.getElementById('total_display').innerText = curr.value + ' ' + (totalQty * unitPrice);
-        }
-        document.getElementById('add_item_btn').addEventListener('click', function() {
-            const container = document.getElementById('order_items_container');
-            const clone = container.querySelector('.order-item').cloneNode(true);
-            clone.querySelector('.item-style').value = ''; clone.querySelector('.item-size').value = ''; clone.querySelector('.item-qty').value = '1';
-            clone.querySelector('.item-qty').addEventListener('change', calculateTotal);
-            const removeBtn = clone.querySelector('.remove-btn'); removeBtn.classList.remove('hidden');
-            removeBtn.addEventListener('click', function() { clone.remove(); calculateTotal(); });
-            container.appendChild(clone); calculateTotal();
-        });
-
-        document.getElementById('orderForm').addEventListener('submit', async function(e) {
+        document.getElementById('orderForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const btn = document.getElementById('submitBtn');
-            btn.innerText = 'Processing...'; btn.disabled = true;
-
-            const currency = document.getElementById('currency_select').value;
-            const ig_handle = document.querySelector('input[name="ig_handle"]').value;
-            const items = [];
-            document.querySelectorAll('.order-item').forEach(item => {
-                const style = item.querySelector('.item-style').value;
-                const size = item.querySelector('.item-size').value;
-                const qty = item.querySelector('.item-qty').value;
-                if(style && size && qty) items.push({ style, size, qty });
-            });
+            btn.disabled = true;
+            btn.textContent = 'PROCESSING...';
 
             try {
-                // Call Vercel Serverless Function
+                // 收集所有資料
+                const data = {
+                    customerName: document.getElementById('customerName').value,
+                    igHandle: document.getElementById('igHandle').value,
+                    phone: document.getElementById('phone').value,
+                    address: {
+                        line1: document.getElementById('address1').value,
+                        line2: document.getElementById('address2').value,
+                        city: document.getElementById('city').value,
+                        country: document.getElementById('country').value
+                    },
+                    currency: document.getElementById('currency').value,
+                    product: document.getElementById('product').value,
+                    size: document.getElementById('size').value,
+                    quantity: document.getElementById('quantity').value
+                };
+
+                // 呼叫後端 API
                 const response = await fetch('/api/checkout', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ currency, ig_handle, items, currentUrl: window.location.origin })
+                    body: JSON.stringify(data)
                 });
 
-                const data = await response.json();
-                if (data.url) {
-                    window.location.href = data.url;
+                const result = await response.json();
+
+                if (result.url) {
+                    window.location.href = result.url; // 跳轉去 Stripe
                 } else {
-                    alert('Error: ' + (data.error || 'Unknown error'));
-                    btn.innerText = 'Checkout / 結帳'; btn.disabled = false;
+                    throw new Error(result.error || 'Something went wrong');
                 }
-            } catch (err) {
-                alert('Connection Error. Please check your internet.');
-                btn.innerText = 'Checkout / 結帳'; btn.disabled = false;
+            } catch (error) {
+                alert('Error: ' + error.message);
+                btn.disabled = false;
+                btn.textContent = 'PROCEED TO CHECKOUT';
             }
         });
-        calculateTotal();
     </script>
 </body>
 </html>
