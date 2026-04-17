@@ -12,9 +12,7 @@ export default async function handler(req, res) {
       phone,
       address,
       currency,
-      product,
-      size,
-      quantity
+      items
     } = req.body;
 
     const prices = {
@@ -26,21 +24,25 @@ export default async function handler(req, res) {
       USD: 2800
     };
 
+    const unitAmount = prices[currency];
+
+    const line_items = items.map(item => ({
+      price_data: {
+        currency: currency.toLowerCase(),
+        product_data: {
+          name: `${item.product} (Size: ${item.size})`,
+          description: `IG: ${igHandle || 'N/A'} | Phone: ${phone}`
+        },
+        unit_amount: unitAmount
+      },
+      quantity: parseInt(item.quantity, 10)
+    }));
+
+    const orderSummary = items.map(i => `${i.product}[${i.size}]x${i.quantity}`).join(', ');
+
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
-      line_items: [
-        {
-          price_data: {
-            currency: currency.toLowerCase(),
-            product_data: {
-              name: `${product} (Size: ${size})`,
-              description: `IG: ${igHandle || 'N/A'} | Phone: ${phone}`
-            },
-            unit_amount: prices[currency]
-          },
-          quantity: parseInt(quantity, 10)
-        }
-      ],
+      line_items: line_items,
       mode: 'payment',
       success_url: `${req.headers.origin}/success.html`,
       cancel_url: `${req.headers.origin}/`,
@@ -59,10 +61,9 @@ export default async function handler(req, res) {
       metadata: {
         customerName: customerName,
         igHandle: igHandle || 'N/A',
-        size: size,
         phone: phone,
-        product: product,
-        currency: currency
+        currency: currency,
+        order_details: orderSummary.substring(0, 499)
       }
     });
 
