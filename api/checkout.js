@@ -6,24 +6,24 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { 
-      customerName, 
-      igHandle, 
-      phone, 
-      address, 
-      currency, 
-      product, 
-      size, 
-      quantity 
+    const {
+      customerName,
+      igHandle,
+      phone,
+      address,
+      currency,
+      product,
+      size,
+      quantity
     } = req.body;
 
     const prices = {
-      'HKD': 21600,
-      'MYR': 12000,
-      'SGD': 3500,
-      'CNY': 19800,
-      'TWD': 880, // TWD 無小數
-      'USD': 2800
+      HKD: 21600,
+      MYR: 12000,
+      SGD: 3500,
+      CNY: 19800,
+      TWD: 880,
+      USD: 2800
     };
 
     const session = await stripe.checkout.sessions.create({
@@ -44,8 +44,6 @@ export default async function handler(req, res) {
       mode: 'payment',
       success_url: `${req.headers.origin}/success.html`,
       cancel_url: `${req.headers.origin}/`,
-      
-      // 【重點功能】將你表單嘅地址，直接完美寫入 Stripe 後台嘅 Shipping 紀錄
       payment_intent_ {
         shipping: {
           name: customerName,
@@ -58,18 +56,16 @@ export default async function handler(req, res) {
           }
         }
       },
-      // 順手將額外資料放入 metadata，方便你後台搜尋
       meta {
-        'Customer Name': customerName,
-        'IG Handle': igHandle || 'N/A',
-        'Size': size,
-        'Phone': phone
+        customerName: customerName,
+        igHandle: igHandle || 'N/A',
+        size: size,
+        phone: phone
       }
     });
 
-    res.status(200).json({ url: session.url });
+    return res.status(200).json({ url: session.url });
   } catch (error) {
-    console.error('Stripe error:', error);
-    res.status(500).json({ error: error.message });
+    return res.status(500).json({ error: error.message });
   }
 }
