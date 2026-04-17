@@ -154,7 +154,8 @@
                 const data = {
                     customerName: document.getElementById('customerName').value,
                     igHandle: document.getElementById('igHandle').value,
-                    phone: document.getElementById('phone').value,
+                    phone: document.getElementById('countryCode').value + ' ' + document.getElementById('phone').value,
+
                     address: {
                         line1: document.getElementById('address1').value,
                         line2: document.getElementById('address2').value,
